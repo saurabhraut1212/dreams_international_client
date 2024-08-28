@@ -12,7 +12,7 @@ const AuthorDashboard = () => {
 
     return (
         <Container maxWidth="lg" sx={{ mt: 5, display: 'flex' }}>
-            {/* Left Side Image */}
+
             <Box
                 sx={{
                     flex: 1,
@@ -28,14 +28,13 @@ const AuthorDashboard = () => {
                 />
             </Box>
 
-            {/* Right Side with Text and Buttons */}
             <Box
                 sx={{
                     flex: 1,
                     ml: 4,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center', // Center items horizontally
+                    alignItems: 'center',
                 }}
             >
                 <Typography variant="h4" align="center" gutterBottom>
@@ -57,7 +56,7 @@ const AuthorDashboard = () => {
                             variant="contained"
                             size="large" // Increase the size of the buttons
                             fullWidth
-                            onClick={() => handleNavigation('/author/add-book')}
+                            onClick={() => handleNavigation('/author/addNewBook')}
                         >
                             Add New Book
                         </Button>

@@ -10,6 +10,7 @@ import ReaderRegister from './components/reader/RegisterRegister';
 import ReaderLogin from './components/reader/ReaderLogin';
 import AuthorDashboard from './components/author/AuthorDashBoard';
 import ReaderDashboard from './components/reader/ReaderDashBoard';
+import AddNewBook from './components/author/AddNewBook';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="authorRegister" element={<AuthorRegister />} />
           <Route path="authorLogin" element={<AuthorLogin />} />
           <Route path="authorDashBoard" element={<AuthorDashboard />} />
+          <Route path="addNewBook" element={<AddNewBook />} />
         </Route>
         <Route path="reader">
           <Route path="readerRegister" element={<ReaderRegister />} />
