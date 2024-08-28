@@ -11,6 +11,8 @@ import ReaderLogin from './components/reader/ReaderLogin';
 import AuthorDashboard from './components/author/AuthorDashBoard';
 import ReaderDashboard from './components/reader/ReaderDashBoard';
 import AddNewBook from './components/author/AddNewBook';
+import GetAllBooks from './components/author/GetAllBooks';
+import EditBook from './components/author/EditBook';
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="authorLogin" element={<AuthorLogin />} />
           <Route path="authorDashBoard" element={<AuthorDashboard />} />
           <Route path="addNewBook" element={<AddNewBook />} />
+          <Route path="allBooks/:authorId" element={<GetAllBooks />} />
+          <Route path="editBook/:bookId" element={<EditBook />} />
         </Route>
         <Route path="reader">
           <Route path="readerRegister" element={<ReaderRegister />} />

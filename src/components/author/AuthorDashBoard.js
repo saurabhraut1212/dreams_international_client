@@ -1,13 +1,28 @@
 import React from 'react';
 import { Button, Box, Typography, Container, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import book from "../../assets/images/author.webp"
+import book from "../../assets/images/author.webp";
+import { jwtDecode } from "jwt-decode";
 
 const AuthorDashboard = () => {
     const navigate = useNavigate();
 
+    const token = localStorage.getItem('authToken');
+    console.log(token, "token")
+    let authorId = null;
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        authorId = decodedToken?.id;
+    }
+
     const handleNavigation = (path) => {
-        navigate(path);
+        console.log(authorId, "inside dashboard");
+        if (path === "/author/allBooks" && authorId) {
+            navigate(`/author/allBooks/${authorId}`)
+        } else {
+            navigate(path);
+        }
+
     };
 
     return (
@@ -46,9 +61,9 @@ const AuthorDashboard = () => {
                             variant="contained"
                             size="large" // Increase the size of the buttons
                             fullWidth
-                            onClick={() => handleNavigation('/author/books')}
+                            onClick={() => handleNavigation('/author/allBooks')}
                         >
-                            Manage Books
+                            Books
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
