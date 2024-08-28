@@ -14,16 +14,20 @@ const Home = () => {
                 textAlign: 'center',
             }}
         >
-            <Typography variant="h4" gutterBottom>
-                Get started
+            <Typography variant="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+                Get Started
             </Typography>
-            <Box sx={{ mt: 3 }}>
+            <Box sx={{ mt: 4 }}>
                 <Button
                     variant="contained"
                     color="primary"
                     component={Link}
                     to="/author/authorRegister"
-                    sx={{ mr: 2 }}
+                    sx={{
+                        mr: 3,
+                        padding: '12px 24px',
+                        fontSize: '1.2rem'
+                    }}
                 >
                     Author
                 </Button>
@@ -32,6 +36,10 @@ const Home = () => {
                     color="secondary"
                     component={Link}
                     to="/reader/readerRegister"
+                    sx={{
+                        padding: '12px 24px',
+                        fontSize: '1.2rem'
+                    }}
                 >
                     Reader
                 </Button>

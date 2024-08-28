@@ -35,7 +35,6 @@ const EditBook = () => {
 
                 if (response.ok) {
                     setBook(data.book);
-                    // Convert the publishDate to dd-MM-yyyy format for display
                     const formattedDate = format(new Date(data.book.publishDate), 'dd-MM-yyyy');
                     setFormData({
                         title: data.book.title,
@@ -72,7 +71,6 @@ const EditBook = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Convert the publishDate back to yyyy-MM-dd format for submission
         const publishDate = parse(formData.publishDate, 'dd-MM-yyyy', new Date()).toISOString().split('T')[0];
 
         const errors = {};
@@ -179,7 +177,7 @@ const EditBook = () => {
                             onChange={handleChange}
                             margin="normal"
                             variant="outlined"
-                            type="text" // Use text input since we are formatting the date
+                            type="text"
                             required
                             error={!!errors.publishDate}
                             helperText={errors.publishDate}

@@ -12,7 +12,7 @@ const ReaderDashboard = () => {
 
     return (
         <Container maxWidth="lg" sx={{ mt: 5, display: 'flex' }}>
-            {/* Left Side Image */}
+
             <Box
                 sx={{
                     flex: 1,
@@ -28,14 +28,14 @@ const ReaderDashboard = () => {
                 />
             </Box>
 
-            {/* Right Side with Text and Buttons */}
+
             <Box
                 sx={{
                     flex: 1,
                     ml: 4,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center', // Center items horizontally
+                    alignItems: 'center',
                 }}
             >
                 <Typography variant="h4" align="center" gutterBottom>
@@ -45,7 +45,7 @@ const ReaderDashboard = () => {
                     <Grid item xs={6}>
                         <Button
                             variant="contained"
-                            size="large" // Increase the size of the buttons
+                            size="large"
                             fullWidth
                             onClick={() => handleNavigation('/reader/top-rated')}
                         >
@@ -55,7 +55,7 @@ const ReaderDashboard = () => {
                     <Grid item xs={6}>
                         <Button
                             variant="contained"
-                            size="large" // Increase the size of the buttons
+                            size="large"
                             fullWidth
                             onClick={() => handleNavigation('/reader/authors')}
                         >
@@ -65,7 +65,7 @@ const ReaderDashboard = () => {
                     <Grid item xs={6}>
                         <Button
                             variant="contained"
-                            size="large" // Increase the size of the buttons
+                            size="large"
                             fullWidth
                             onClick={() => handleNavigation('/reader/genres')}
                         >
@@ -75,7 +75,7 @@ const ReaderDashboard = () => {
                     <Grid item xs={6}>
                         <Button
                             variant="contained"
-                            size="large" // Increase the size of the buttons
+                            size="large"
                             fullWidth
                             onClick={() => handleNavigation('/reader/reviews')}
                         >

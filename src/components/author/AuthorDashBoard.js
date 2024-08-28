@@ -22,7 +22,11 @@ const AuthorDashboard = () => {
         } else {
             navigate(path);
         }
+    };
 
+    const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        navigate('/author/authorLogin');
     };
 
     return (
@@ -59,7 +63,7 @@ const AuthorDashboard = () => {
                     <Grid item xs={6}>
                         <Button
                             variant="contained"
-                            size="large" // Increase the size of the buttons
+                            size="large"
                             fullWidth
                             onClick={() => handleNavigation('/author/allBooks')}
                         >
@@ -69,31 +73,21 @@ const AuthorDashboard = () => {
                     <Grid item xs={6}>
                         <Button
                             variant="contained"
-                            size="large" // Increase the size of the buttons
+                            size="large"
                             fullWidth
                             onClick={() => handleNavigation('/author/addNewBook')}
                         >
                             Add New Book
                         </Button>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <Button
-                            variant="contained"
-                            size="large" // Increase the size of the buttons
+                            variant="outlined"
+                            size="large"
                             fullWidth
-                            onClick={() => handleNavigation('/author/reviews')}
+                            onClick={handleLogout}
                         >
-                            View Reviews
-                        </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                            variant="contained"
-                            size="large" // Increase the size of the buttons
-                            fullWidth
-                            onClick={() => handleNavigation('/author/profile')}
-                        >
-                            Edit Profile
+                            Logout
                         </Button>
                     </Grid>
                 </Grid>

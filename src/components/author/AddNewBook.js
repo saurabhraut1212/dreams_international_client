@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { z } from 'zod';
 
-// Define the Zod schema
+
 const bookSchema = z.object({
     title: z.string().min(1, { message: "Title is required" }),
     description: z.string().min(1, { message: "Description is required" }),
@@ -46,15 +46,14 @@ const AddBookForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate form data using Zod
+
         const parsedData = bookSchema.safeParse({
             ...formData,
-            price: Number(formData.price), // Convert price to number for validation
+            price: Number(formData.price),
             cover,
         });
 
         if (!parsedData.success) {
-            // Collect all validation errors
             const zodErrors = parsedData.error.errors.reduce((acc, error) => {
                 acc[error.path[0]] = error.message;
                 return acc;
@@ -64,7 +63,7 @@ const AddBookForm = () => {
             return;
         }
 
-        setErrors({}); // Clear previous errors
+        setErrors({});
 
         const formDataToSend = new FormData();
         formDataToSend.append('cover', cover);
