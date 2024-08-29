@@ -11,6 +11,7 @@ const AuthForm = ({ mode, apiEndpoint, redirectPath, otherPath, linkText }) => {
         email: '',
         password: '',
     });
+    console.log(apiEndpoint, "endpoint")
     const [errors, setErrors] = useState({});
 
     const schema = z.object({

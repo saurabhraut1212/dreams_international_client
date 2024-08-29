@@ -76,7 +76,7 @@ const AddBookForm = () => {
 
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8000/api/book/addAuthorBook', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/book/addAuthorBook`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${token}`

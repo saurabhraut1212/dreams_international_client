@@ -24,7 +24,7 @@ const EditBook = () => {
         const fetchBook = async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await fetch(`http://localhost:8000/api/book/getBook/${bookId}`, {
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/book/getBook/${bookId}`, {
                     method: 'GET',
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -102,7 +102,7 @@ const EditBook = () => {
 
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8000/api/book/updateAuthorBook/${bookId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/book/updateAuthorBook/${bookId}`, {
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${token}`

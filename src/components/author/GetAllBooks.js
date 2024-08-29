@@ -44,7 +44,7 @@ const GetAllBooks = () => {
                 sortByRating
             }).toString();
 
-            const response = await fetch(`http://localhost:8000/api/book/getBooksByAuthor/${authorId}?${queryParams}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/book/getBooksByAuthor/${authorId}?${queryParams}`, {
                 method: 'GET',
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -83,7 +83,7 @@ const GetAllBooks = () => {
     const handleDelete = async (bookId) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8000/api/book/deleteAuthorBook/${bookId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/book/deleteAuthorBook/${bookId}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${token}`

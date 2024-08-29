@@ -5,7 +5,7 @@ const ReaderRegister = () => {
     return (
         <AuthForm
             mode="register"
-            apiEndpoint="http://localhost:8000/api/reader/readerRegister"
+            apiEndpoint={`${process.env.REACT_APP_BASE_URL}/api/reader/readerRegister`}
             redirectPath="/reader/readerLogin"
             otherPath="/reader/readerLogin"
             linkText="Login"

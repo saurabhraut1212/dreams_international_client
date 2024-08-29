@@ -5,7 +5,7 @@ const AuthorRegister = () => {
     return (
         <AuthForm
             mode="register"
-            apiEndpoint="http://localhost:8000/api/auth/authorRegister"
+            apiEndpoint={`${process.env.REACT_APP_BASE_URL}/api/auth/authorRegister`}
             redirectPath="/author/authorLogin"
             otherPath="/author/authorLogin"
             linkText="Login"
