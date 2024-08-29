@@ -1,7 +1,6 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from './components/Navbar';
 import Home from './components/Home';
 import AuthorRegister from './components/author/AuthorRegister';
 import AuthorLogin from './components/author/AuthorLogin';
@@ -13,6 +12,9 @@ import GetAllBooks from './components/author/GetAllBooks';
 import EditBook from './components/author/EditBook';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import ReaderRegister from './components/reader/ReaderRegister';
+import TopRatedBooks from './components/reader/TopRatedBooks';
+import ReaderProtectedRoute from './components/auth/ReaderProtectedRoute';
+import BooksByAuthor from './components/reader/BooksByAuthor';
 
 const App = () => {
   return (
@@ -34,7 +36,10 @@ const App = () => {
           <Route path="readerRegister" element={<ReaderRegister />} />
           <Route path="readerLogin" element={<ReaderLogin />} />
 
-          <Route path="readerDashBoard" element={<ProtectedRoute><ReaderDashboard /></ProtectedRoute>} />
+
+          <Route path="topRatedBooks" element={<ReaderProtectedRoute><TopRatedBooks /></ReaderProtectedRoute>} />
+          <Route path="readerDashBoard" element={<ReaderProtectedRoute><ReaderDashboard /></ReaderProtectedRoute>} />
+          <Route path="booksByAuthor" element={<ReaderProtectedRoute><BooksByAuthor /></ReaderProtectedRoute>} />
         </Route>
       </Routes>
     </Router>

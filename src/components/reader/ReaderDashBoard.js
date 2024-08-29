@@ -10,6 +10,12 @@ const ReaderDashboard = () => {
         navigate(path);
     };
 
+
+    const handleLogout = () => {
+        localStorage.removeItem('readerToken');
+        navigate('/reader/readerLogin');
+    };
+
     return (
         <Container maxWidth="lg" sx={{ mt: 5, display: 'flex' }}>
 
@@ -47,9 +53,9 @@ const ReaderDashboard = () => {
                             variant="contained"
                             size="large"
                             fullWidth
-                            onClick={() => handleNavigation('/reader/top-rated')}
+                            onClick={() => handleNavigation('/reader/topRatedBooks')}
                         >
-                            View Top Rated Books
+                            Top rated books
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
@@ -57,29 +63,20 @@ const ReaderDashboard = () => {
                             variant="contained"
                             size="large"
                             fullWidth
-                            onClick={() => handleNavigation('/reader/authors')}
+                            onClick={() => handleNavigation('/reader/booksByAuthor')}
                         >
-                            Browse by Author
+                            Books by author
                         </Button>
                     </Grid>
-                    <Grid item xs={6}>
+
+                    <Grid item xs={12}>
                         <Button
-                            variant="contained"
+                            variant="outlined"
                             size="large"
                             fullWidth
-                            onClick={() => handleNavigation('/reader/genres')}
+                            onClick={handleLogout}
                         >
-                            Browse by Genre
-                        </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            fullWidth
-                            onClick={() => handleNavigation('/reader/reviews')}
-                        >
-                            My Reviews
+                            Logout
                         </Button>
                     </Grid>
                 </Grid>

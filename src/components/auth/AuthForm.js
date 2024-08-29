@@ -53,7 +53,17 @@ const AuthForm = ({ mode, apiEndpoint, redirectPath, otherPath, linkText }) => {
 
                 if (response.ok) {
                     const token = data.token;
-                    if (token) localStorage.setItem('authToken', token);
+
+                    if (token) {
+
+                        if (apiEndpoint.includes('author')) {
+                            localStorage.setItem('authToken', token);
+                        } else if (apiEndpoint.includes('reader')) {
+                            localStorage.setItem('readerToken', token);
+                        } else {
+                            localStorage.setItem('Token', token);
+                        }
+                    }
 
                     toast.success(`${mode === 'register' ? 'Registration' : 'Login'} successful!`);
                     setFormData({

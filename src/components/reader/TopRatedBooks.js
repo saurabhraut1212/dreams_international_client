@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Grid, Pagination, Button, TextField, Select, MenuItem, FormControl, InputLabel, IconButton, Chip } from '@mui/material';
+import { Container, Typography, Box, Grid, Pagination, Button, FormControl, InputLabel, Select, MenuItem, IconButton, TextField, Chip } from '@mui/material';
 import toast, { Toaster } from 'react-hot-toast';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ReviewsModal from './ReviewsModal';
+import ReviewsModal from '../author/ReviewsModal';
+import AddReviewModal from './AddReviewModal'; // Import the new modal
 
-const GetAllBooks = () => {
-    const { authorId } = useParams();
+const GetTopRatedBooks = () => {
     const navigate = useNavigate();
     const [books, setBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,24 +17,65 @@ const GetAllBooks = () => {
     const [sortByDate, setSortByDate] = useState('');
     const [sortByRating, setSortByRating] = useState('');
     const [selectedBookReviews, setSelectedBookReviews] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [isReviewFormModalOpen, setIsReviewFormModalOpen] = useState(false);
 
     const openReviewsModal = (reviews) => {
         setSelectedBookReviews(reviews);
-        setIsModalOpen(true);
+        setIsReviewsModalOpen(true);
     };
 
     const closeReviewsModal = () => {
-        setIsModalOpen(false);
+        setIsReviewsModalOpen(false);
         setSelectedBookReviews([]);
+    };
+
+    const openReviewForm = (book) => {
+        setSelectedBook(book);
+        setIsReviewFormModalOpen(true);
+    };
+
+    const closeReviewFormModal = () => {
+        setIsReviewFormModalOpen(false);
+        setSelectedBook(null);
+    };
+
+    const handleReviewSubmit = async (rating, message) => {
+        try {
+            const token = localStorage.getItem('readerToken');
+            const response = await fetch('http://localhost:8000/api/reader/addReview', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    rating,
+                    message,
+                    bookId: selectedBook._id
+                })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                toast.success('Review added successfully');
+                fetchTopRatedBooks(currentPage);
+                closeReviewFormModal();
+            } else {
+                toast.error(data.message || 'Failed to add review');
+            }
+        } catch (error) {
+            toast.error('Network error, please try again later.');
+        }
     };
 
     const pageSize = 10;
 
-    const fetchBooks = async (page = 1) => {
+    const fetchTopRatedBooks = async (page = 1) => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('readerToken');
             const queryParams = new URLSearchParams({
                 page: page,
                 limit: pageSize,
@@ -44,7 +85,7 @@ const GetAllBooks = () => {
                 sortByRating
             }).toString();
 
-            const response = await fetch(`http://localhost:8000/api/book/getBooksByAuthor/${authorId}?${queryParams}`, {
+            const response = await fetch(`http://localhost:8000/api/reader/topRatedBooks?${queryParams}`, {
                 method: 'GET',
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -52,14 +93,13 @@ const GetAllBooks = () => {
             });
 
             const data = await response.json();
-            console.log(data, "res")
 
             if (response.ok) {
                 setBooks(data.books);
                 setCurrentPage(data.pagination.currentPage);
                 setTotalPages(data.pagination.totalPages);
             } else {
-                toast.error(data.message || 'Failed to fetch books');
+                toast.error(data.message || 'Failed to fetch top-rated books');
             }
         } catch (error) {
             toast.error('Network error, please try again later.');
@@ -69,37 +109,11 @@ const GetAllBooks = () => {
     };
 
     useEffect(() => {
-        fetchBooks(currentPage);
+        fetchTopRatedBooks(currentPage);
     }, [currentPage, searchTitle, filterStatus, sortByDate, sortByRating]);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
-    };
-
-    const handleEdit = (bookId) => {
-        navigate(`/author/editBook/${bookId}`);
-    };
-
-    const handleDelete = async (bookId) => {
-        try {
-            const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8000/api/book/deleteAuthorBook/${bookId}`, {
-                method: 'DELETE',
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                toast.success('Book deleted successfully');
-                fetchBooks(currentPage);
-            } else {
-                const data = await response.json();
-                toast.error(data.message || 'Failed to delete book');
-            }
-        } catch (error) {
-            toast.error('Network error, please try again later.');
-        }
     };
 
     const handleResetFilters = () => {
@@ -114,7 +128,7 @@ const GetAllBooks = () => {
             <Toaster position="top-center" reverseOrder={false} />
 
             <Typography variant="h4" align="center" gutterBottom>
-                Books by Author
+                Top Rated Books
             </Typography>
 
             <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
@@ -137,7 +151,6 @@ const GetAllBooks = () => {
                         <MenuItem value="draft">Draft</MenuItem>
                     </Select>
                 </FormControl>
-
                 <FormControl sx={{ width: '20%' }}>
                     <InputLabel>Published Date</InputLabel>
                     <Select
@@ -172,7 +185,7 @@ const GetAllBooks = () => {
                     Loading...
                 </Typography>
             ) : (
-                books.length > 0 ? (
+                books.length > 0 ?
                     <Box>
                         <Grid container spacing={3}>
                             {books.map((book) => (
@@ -230,6 +243,7 @@ const GetAllBooks = () => {
                                             Ratings: {book.averageRating === 0 ? 'No ratings' : `${book.averageRating}/5`}
                                         </Typography>
 
+
                                         <Box
                                             sx={{
                                                 my: 'auto',
@@ -240,31 +254,16 @@ const GetAllBooks = () => {
                                             <Button
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={() => handleEdit(book._id)}
-                                                sx={{ width: '48%' }}
+                                                sx={{ width: '45%' }}
+                                                onClick={() => openReviewForm(book)}
                                             >
-                                                Edit
+                                                Add Review
                                             </Button>
-                                            <Button
-                                                variant="contained"
-                                                color="secondary"
-                                                onClick={() => handleDelete(book._id)}
-                                                sx={{ width: '48%' }}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                my: 'auto',
-                                            }}
-                                        >
                                             <Button
                                                 disabled={book?.reviews?.length === 0}
                                                 variant="contained"
-                                                color="success"
-                                                sx={{ width: '100%' }}
-                                                onClick={() => openReviewsModal(book?.reviews)}
+                                                sx={{ width: '45%' }}
+                                                onClick={() => openReviewsModal(book.reviews)}
                                             >
                                                 See Reviews
                                             </Button>
@@ -283,19 +282,27 @@ const GetAllBooks = () => {
                             />
                         </Box>
                     </Box>
-                ) : (
-                    <Typography variant="h4" align="center">
-                        No Books Found
-                    </Typography>
-                )
+                    : (
+                        <Typography variant="h6" align="center">
+                            No books found.
+                        </Typography>
+                    )
             )}
+
+            <AddReviewModal
+                open={isReviewFormModalOpen}
+                onClose={closeReviewFormModal}
+                onSubmit={handleReviewSubmit}
+                bookTitle={selectedBook?.title}
+            />
+
             <ReviewsModal
-                open={isModalOpen}
-                onClose={closeReviewsModal}
+                open={isReviewsModalOpen}
                 reviews={selectedBookReviews}
+                onClose={closeReviewsModal}
             />
         </Container>
     );
 };
 
-export default GetAllBooks;
+export default GetTopRatedBooks;
