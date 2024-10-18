@@ -85,7 +85,7 @@ const GetTopRatedBooks = () => {
                 sortByRating
             }).toString();
 
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL} /api/reader/topRatedBooks?${queryParams}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/reader/topRatedBooks?${queryParams}`, {
                 method: 'GET',
                 headers: {
                     "Authorization": `Bearer ${token}`
